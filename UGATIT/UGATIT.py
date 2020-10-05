@@ -598,7 +598,7 @@ class UGATIT(object) :
 
     def load(self, checkpoint_dir):
         print(" [*] Reading checkpoints...")
-        #checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
+        checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
         if ckpt and ckpt.model_checkpoint_path:
@@ -664,11 +664,11 @@ class UGATIT(object) :
             index.write("</tr>")
         index.close()
 
-    def eval(self, img_path):
+    def eval(self, img_path, checkpoint_dir):
         tf.global_variables_initializer().run()
 
         self.saver = tf.train.Saver()
-        could_load, checkpoint_counter = self.load(self.checkpoint_dir)
+        could_load, checkpoint_counter = self.load(checkpoint_dir)
         self.result_dir = os.path.join(self.result_dir, self.model_dir)
         check_folder(self.result_dir)
 
