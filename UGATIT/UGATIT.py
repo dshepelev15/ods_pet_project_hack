@@ -1,5 +1,5 @@
-from ops import *
-from utils import *
+from .ops import *
+from .utils import *
 from glob import glob
 import time
 from tensorflow.contrib.data import prefetch_to_device, shuffle_and_repeat, map_and_batch
@@ -96,6 +96,7 @@ class UGATIT(object) :
         print("# identity_weight : ", self.identity_weight)
         print("# cam_weight : ", self.cam_weight)
 
+        self.build_model()
         tf.global_variables_initializer().run()
         self.saver = tf.train.Saver()
         could_load, checkpoint_counter = self.load(checkpoint_dir)
@@ -676,7 +677,7 @@ class UGATIT(object) :
     def eval(self, img_path):
         print('Processing A image: ' + img_path)
         sample_image = np.asarray(load_test_data(img_path, size=self.img_size))
-        image_path = os.path.join(os.path.split(img_path)[:-1], 'processed.jpg')
+        image_path = os.path.join(*os.path.split(img_path)[:-1], 'processed.jpg')
 
         fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
         save_images(fake_img, [1, 1], image_path)
