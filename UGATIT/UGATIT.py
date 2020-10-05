@@ -598,7 +598,7 @@ class UGATIT(object) :
 
     def load(self, checkpoint_dir):
         print(" [*] Reading checkpoints...")
-        checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
+        #checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
         if ckpt and ckpt.model_checkpoint_path:
@@ -663,3 +663,23 @@ class UGATIT(object) :
                     '../..' + os.path.sep + image_path), self.img_size, self.img_size))
             index.write("</tr>")
         index.close()
+
+    def eval(self, img_path):
+        tf.global_variables_initializer().run()
+
+        self.saver = tf.train.Saver()
+        could_load, checkpoint_counter = self.load(self.checkpoint_dir)
+        self.result_dir = os.path.join(self.result_dir, self.model_dir)
+        check_folder(self.result_dir)
+
+        if could_load :
+            print(" [*] Load SUCCESS")
+        else :
+            print(" [!] Load failed...")
+
+        print('Processing A image: ' + img_path)
+        sample_image = np.asarray(load_test_data(img_path, size=self.img_size))
+        image_path = os.path.join(os.path.split(img_path)[:-1], 'processed.jpg')
+
+        fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
+        save_images(fake_img, [1, 1], image_path)
