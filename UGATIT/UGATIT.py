@@ -6,7 +6,7 @@ from tensorflow.contrib.data import prefetch_to_device, shuffle_and_repeat, map_
 import numpy as np
 
 class UGATIT(object) :
-    def __init__(self, sess, args):
+    def __init__(self, sess, args, checkpoint_dir):
         self.light = args.light
 
         if self.light :
@@ -95,6 +95,15 @@ class UGATIT(object) :
         print("# cycle_weight : ", self.cycle_weight)
         print("# identity_weight : ", self.identity_weight)
         print("# cam_weight : ", self.cam_weight)
+
+        tf.global_variables_initializer().run()
+        self.saver = tf.train.Saver()
+        could_load, checkpoint_counter = self.load(checkpoint_dir)
+
+        if could_load :
+            print(" [*] Load SUCCESS")
+        else :
+            print(" [!] Load failed...")
 
     ##################################################################################
     # Generator
@@ -598,7 +607,7 @@ class UGATIT(object) :
 
     def load(self, checkpoint_dir):
         print(" [*] Reading checkpoints...")
-        checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
+        #checkpoint_dir = os.path.join(checkpoint_dir, self.model_dir)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
         if ckpt and ckpt.model_checkpoint_path:
@@ -664,19 +673,7 @@ class UGATIT(object) :
             index.write("</tr>")
         index.close()
 
-    def eval(self, img_path, checkpoint_dir):
-        tf.global_variables_initializer().run()
-
-        self.saver = tf.train.Saver()
-        could_load, checkpoint_counter = self.load(checkpoint_dir)
-        self.result_dir = os.path.join(self.result_dir, self.model_dir)
-        check_folder(self.result_dir)
-
-        if could_load :
-            print(" [*] Load SUCCESS")
-        else :
-            print(" [!] Load failed...")
-
+    def eval(self, img_path):
         print('Processing A image: ' + img_path)
         sample_image = np.asarray(load_test_data(img_path, size=self.img_size))
         image_path = os.path.join(os.path.split(img_path)[:-1], 'processed.jpg')
