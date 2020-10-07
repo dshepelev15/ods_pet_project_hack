@@ -1,9 +1,15 @@
+import time
+from uuid import uuid4
+
+import numpy as np
+import tensorflow as tf
+
+from tensorflow.contrib.data import prefetch_to_device, shuffle_and_repeat, map_and_batch
+
 from .ops import *
 from .utils import *
 from glob import glob
-import time
-from tensorflow.contrib.data import prefetch_to_device, shuffle_and_repeat, map_and_batch
-import numpy as np
+
 
 class UGATIT(object) :
     def __init__(self, sess, args, checkpoint_dir):
@@ -97,7 +103,7 @@ class UGATIT(object) :
         print("# cam_weight : ", self.cam_weight)
 
         self.build_model()
-        tf.global_variables_initializer().run()
+        tf.global_variables_initializer().run(session=sess)
         self.saver = tf.train.Saver()
         could_load, checkpoint_counter = self.load(checkpoint_dir)
 
@@ -674,10 +680,28 @@ class UGATIT(object) :
             index.write("</tr>")
         index.close()
 
-    def eval(self, img_path):
+    def eval(self, img_path) -> str:
         print('Processing A image: ' + img_path)
         sample_image = np.asarray(load_test_data(img_path, size=self.img_size))
-        image_path = os.path.join(*os.path.split(img_path)[:-1], 'processed.jpg')
 
+        heigth, width = sample_image.shape[1], sample_image.shape[2] 
+    
+        output_image_path = os.path.join(*os.path.split(img_path)[:-1], f'{uuid4()}.jpg')
+        
         fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
-        save_images(fake_img, [1, 1], image_path)
+        fake_heigth, fake_width = fake_img.shape[1], fake_img.shape[2]
+
+        save_images(fake_img, [heigth / fake_heigth, width / fake_width], output_image_path)
+        return output_image_path
+
+
+_gan_model = None
+
+
+def get_initialized_model(args=None, checkpoint_dir=None):
+    global _gan_model
+    if _gan_model is None:
+        sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+        _gan_model = UGATIT(sess, args, checkpoint_dir)
+    
+    return _gan_model

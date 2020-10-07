@@ -4,10 +4,11 @@ from telegram.ext import Updater, MessageHandler, Filters, Dispatcher
 
 from handlers import handle_file_upload
 
-from UGATIT import UGATIT
+from UGATIT import UGATIT, get_initialized_model
 from UGATIT.utils import *
 
 BOT_TOKEN = os.getenv('BOT_TOKEN', 'your_tokeen')
+
 
 def parse_args():
     desc = "Tensorflow implementation of U-GAT-IT"
@@ -57,11 +58,11 @@ def parse_args():
 
 def main():
     args = parse_args()
-    with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
-        gan = UGATIT(sess, args, "/home/popov/ckpt")
-        gan.eval("/home/popov/kek.jpg")
 
-    # bot = Bot(token=BOT_TOKEN)
+    # init model
+    checkpoint_dir = '/home/med1a/ods_pet_project_hack/ckpt'
+    gan_model = get_initialized_model(args, checkpoint_dir)
+
     updater = Updater(BOT_TOKEN, use_context=True)
 
     dp: Dispatcher = updater.dispatcher

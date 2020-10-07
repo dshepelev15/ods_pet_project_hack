@@ -58,6 +58,8 @@ def imsave(images, size, path):
     return cv2.imwrite(path, images)
 
 def merge(images, size):
+    size = [1, 1]
+
     h, w = images.shape[1], images.shape[2]
     img = np.zeros((h * size[0], w * size[1], 3))
     for idx, image in enumerate(images):
