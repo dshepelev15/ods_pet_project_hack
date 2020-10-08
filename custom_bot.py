@@ -1,10 +1,10 @@
-import os
+import bz2
 import argparse
 from telegram.ext import Updater, MessageHandler, Filters, Dispatcher
 
 from handlers import handle_file_upload
-
-from UGATIT import UGATIT, get_initialized_model
+from utils.landmarks_detector import LandmarksDetector
+from UGATIT import get_initialized_model
 from UGATIT.utils import *
 
 BOT_TOKEN = os.getenv('BOT_TOKEN', 'your_tokeen')
@@ -56,6 +56,15 @@ def parse_args():
 
     return parser.parse_args()
 
+
+def unpack_bz2(src_path):
+    data = bz2.BZ2File(src_path).read()
+    dst_path = src_path[:-4]
+    with open(dst_path, 'wb') as fp:
+        fp.write(data)
+    return dst_path
+
+
 def main():
     args = parse_args()
 
@@ -63,6 +72,9 @@ def main():
     checkpoint_dir = '/home/med1a/ods_pet_project_hack/ckpt'
     gan_model = get_initialized_model(args, checkpoint_dir)
 
+    detection_model_file_path = ''
+    detector_path = unpack_bz2(detection_model_file_path)
+    detector = LandmarksDetector(detector_path)
     updater = Updater(BOT_TOKEN, use_context=True)
 
     dp: Dispatcher = updater.dispatcher
