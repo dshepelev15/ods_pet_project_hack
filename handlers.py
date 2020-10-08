@@ -33,8 +33,9 @@ def process_input_image(input_file_path):
     landmarks_detector = LandmarksDetector()
     input_image = Image.open(input_file_path)
 
-    face_landmarks = list(landmarks_detector.get_landmarks(input_file_path))
-    output_image = image_align(input_image, face_landmarks, 256)
+    for face_landmarks in landmarks_detector.get_landmarks(input_file_path):
+        output_image = image_align(input_image, face_landmarks, 256)
+        break
 
     output_file_path = f'pictures/{uuid4()}.jpeg'
     output_image.save(output_file_path, 'jpeg')
