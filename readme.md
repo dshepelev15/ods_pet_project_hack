@@ -39,7 +39,7 @@ After that you generate DiffAugment-stylegan2 model Pepe image that generated fr
  - [365 good Pepe pics](https://drive.google.com/file/d/1kihnhn8UaUE0VTw9unEZKKpRBgPCCH4w/view?usp=sharing)
  - [3000 pictures with Pepe, including some not Pepe pics](https://drive.google.com/file/d/1It0uWyf0lgqPMSSkUeXzkIPGd8JXKyJA/view?usp=sharing)
 
-##Requirements
+## Requirements
  - Pillow
  - python-telegram-bot
  - tensorflow==1.14
@@ -47,11 +47,12 @@ After that you generate DiffAugment-stylegan2 model Pepe image that generated fr
  - opencv-python
  - dlib
  - scipy
+ - torch
  - albumentations
  
  
  
-##Run telegram bot on server 
+## Run telegram bot on server 
  ```shell
  $ python custom_bot.py
 ```
