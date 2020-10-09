@@ -4,3 +4,4 @@ tensorflow==1.14
 numpy
 opencv-python
 dlib
+scipy

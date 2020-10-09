@@ -72,7 +72,7 @@ def main():
     checkpoint_dir = '/home/med1a/ods_pet_project_hack/ckpt'
     gan_model = get_initialized_model(args, checkpoint_dir)
 
-    detection_model_file_path = ''
+    detection_model_file_path = '/home/med1a/shape_predictor_68_face_landmarks.dat.bz2'
     detector_path = unpack_bz2(detection_model_file_path)
     detector = LandmarksDetector(detector_path)
     updater = Updater(BOT_TOKEN, use_context=True)
