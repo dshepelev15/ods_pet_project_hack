@@ -2,6 +2,7 @@ import os
 import cv2
 import numpy as np
 
+from datetime import datetime
 from uuid import uuid4
 
 from PIL import Image
@@ -14,6 +15,8 @@ from pix2pix import Pix2pixModels
 
 
 def handle_file_upload(update, context):
+    print(f'handle new image {datetime.now().isoformat()}')
+
     chat_id = update.message.chat.id
     bot: Bot = context.bot
 
@@ -23,6 +26,9 @@ def handle_file_upload(update, context):
 
     aligned_image_files_path = process_input_image(file_path)
 
+    if not aligned_image_files_path:
+        bot.send_message(chat_id=chat_id, text="I'm sorry, but I did not find any faces on the image")
+
     for aligned_image_file in aligned_image_files_path:
 
         for output_image in Pix2pixModels.inference(aligned_image_file):
@@ -31,7 +37,7 @@ def handle_file_upload(update, context):
 
             output_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
             output_image = Image.fromarray(output_image)
-            
+
             webp_file_path = f"pictures/{uuid4()}.webp"
             output_image.save(webp_file_path, "webp")
 
