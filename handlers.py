@@ -1,5 +1,8 @@
 import os
+import cv2
+import numpy as np
 
+from datetime import datetime
 from uuid import uuid4
 
 from PIL import Image
@@ -7,10 +10,13 @@ from telegram import Bot
 
 from utils.landmarks_detector import LandmarksDetector
 from utils.face_alignment import image_align
-from UGATIT import get_initialized_model
+
+from pix2pix import Pix2pixModels
 
 
 def handle_file_upload(update, context):
+    print(f'handle new image {datetime.now().isoformat()}')
+
     chat_id = update.message.chat.id
     bot: Bot = context.bot
 
@@ -20,18 +26,27 @@ def handle_file_upload(update, context):
 
     aligned_image_files_path = process_input_image(file_path)
 
-    gan_model = get_initialized_model()
+    if not aligned_image_files_path:
+        bot.send_message(chat_id=chat_id, text="I'm sorry, but I did not find any faces on the image")
+
     for aligned_image_file in aligned_image_files_path:
-        output_image_path = gan_model.eval(aligned_image_file)
 
-        im = Image.open(output_image_path).convert("RGB")
-        webp_file_path = file_path.replace(".jpeg", ".webp")
-        im.save(webp_file_path, "webp")
+        for output_image in Pix2pixModels.inference(aligned_image_file):
+            opencv_output_image = cv2.cvtColor(np.array(output_image), cv2.COLOR_RGB2BGR)
+            resized_image = cv2.resize(opencv_output_image, (512, 512))
 
-        with open(webp_file_path, "rb") as fd:
-            bot.send_sticker(chat_id, fd)
+            output_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
+            output_image = Image.fromarray(output_image)
 
-        os.remove(webp_file_path) # clear
+            webp_file_path = f"pictures/{uuid4()}.webp"
+            output_image.save(webp_file_path, "webp")
+
+            with open(webp_file_path, "rb") as fd:
+                bot.send_sticker(chat_id, fd)
+
+            os.remove(webp_file_path) # clear
+    
+        os.remove(aligned_image_file)
 
 
 def process_input_image(input_file_path):
