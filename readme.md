@@ -2,7 +2,9 @@
 
 ### [telegram: @ods_sticker_pack_bot](https://t.me/ods_sticker_pack_bot) | [pepe datasets](https://drive.google.com/drive/folders/1A5lvBdknNP2qZ8ySwV7u-gbZA7graSsE?usp=sharing)
 
-### Example
+## Send your selfie and get pepe version of yourself
+
+## Example
 
 <div>
     <table>
@@ -22,10 +24,14 @@
 </div>
 
 
+## How it works
+* We detect the face on the image via `dlib` library and align and reshape it
+* We apply [pix2pix model](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) to generate the output image.
+
 Using the results of the paper
 ["Differentiable Augmentation for Data-Efficient GAN Training"](https://hanlab.mit.edu/projects/data-efficient-gans/)
 and code from [their repo](https://github.com/mit-han-lab/data-efficient-gans) we train model this model:
- 1. to generate random selfies on dataset [SelebA](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
+ 1. to generate random selfies on dataset [CelebA](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
  2. To generate random [pepe images](https://drive.google.com/file/d/1kihnhn8UaUE0VTw9unEZKKpRBgPCCH4w/view?usp=sharing)
  
  
@@ -76,4 +82,3 @@ After that you generate DiffAugment-stylegan2 model Pepe image that generated fr
  ```shell
  $ python3 custom_bot.py
 ```
-
