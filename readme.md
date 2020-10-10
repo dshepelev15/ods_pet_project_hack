@@ -1,10 +1,10 @@
 # Selfie to pepe (ODS pet project hackathon)
 
-### [telegram: @ods_sticker_pack_bot](https://t.me/ods_sticker_pack_bot) | [pepe datasets](https://drive.google.com/drive/folders/1A5lvBdknNP2qZ8ySwV7u-gbZA7graSsE?usp=sharing)
+##### [telegram: @ods_sticker_pack_bot](https://t.me/ods_sticker_pack_bot) | [pepe datasets](https://drive.google.com/drive/folders/1A5lvBdknNP2qZ8ySwV7u-gbZA7graSsE?usp=sharing)
 
-## Send your selfie and get pepe version of yourself
+ Send your selfie and get pepe version of yourself
 
-## Example
+### Example
 
 <div>
     <table>
@@ -25,12 +25,22 @@
 
 
 ## How it works
-* We detect the face on the image via `dlib` library and align and reshape it
+* We detect the face on the image via `dlib` library then align and reshape it
 * We apply [pix2pix model](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) to generate the output image.
 
+## How it was trained
+##### 1 Step
 Using the results of the paper
 ["Differentiable Augmentation for Data-Efficient GAN Training"](https://hanlab.mit.edu/projects/data-efficient-gans/)
-and code from [their repo](https://github.com/mit-han-lab/data-efficient-gans) we train model this model:
+and code from [their repo](https://github.com/mit-han-lab/data-efficient-gans) we train 300-shot model on pepe images.
+
+
+![selfie_to_pepe2](./images/pepe_gif2.gif) ![selfie_to_pepe](./images/pepe_gif1.gif) 
+
+ *thispepedoesntexist*
+ 
+ 
+ 
  1. to generate random selfies on dataset [CelebA](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
  2. To generate random [pepe images](https://drive.google.com/file/d/1kihnhn8UaUE0VTw9unEZKKpRBgPCCH4w/view?usp=sharing)
  
