@@ -2,6 +2,26 @@
 
 ### [telegram: @ods_sticker_pack_bot](https://t.me/ods_sticker_pack_bot) | [pepe datasets](https://drive.google.com/drive/folders/1A5lvBdknNP2qZ8ySwV7u-gbZA7graSsE?usp=sharing)
 
+### Example
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <h2>Selfie input</h2>
+            </td>
+            <td>
+                <h2>Pepe output</h2>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="./images/man_selfie.jpg" width="auto" height="256"></td>
+            <td><img src="./images/pepe_selfie.webp" width="256" height="256"></td>
+        </tr>
+    </table>    
+</div>
+
+
 Using the results of the paper
 ["Differentiable Augmentation for Data-Efficient GAN Training"](https://hanlab.mit.edu/projects/data-efficient-gans/)
 and code from [their repo](https://github.com/mit-han-lab/data-efficient-gans) we train model this model:
@@ -15,14 +35,14 @@ By replacing latent vectors in model 2 by latent vectors in 1 model you can get 
  more and more similar to Pepe:
  
  
-![selfie_to_pepe](./pictures/selfie_to_pepe.gif)
+![selfie_to_pepe](./images/selfie_to_pepe.gif)
 
 
 
 Also by replacing latent vectors in model 1 by latent vectors in 2 model you can transform pepe to human style:
  
  
-![pepe_to_selfie](./pictures/pepe_to_selfie.gif)
+![pepe_to_selfie](./images/pepe_to_selfie.gif)
 
 
 Then you should train model StyleGan2 on 
