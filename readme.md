@@ -1,4 +1,4 @@
-# Selfie to pepe (ODS pet project hackathon) using DiffAugment-stylegan2
+# Selfie to pepe (ODS pet project hackathon)
 
 ### [telegram: @ods_sticker_pack_bot](https://t.me/ods_sticker_pack_bot) | [pepe datasets](https://drive.google.com/drive/folders/1A5lvBdknNP2qZ8ySwV7u-gbZA7graSsE?usp=sharing)
 
@@ -42,18 +42,18 @@ After that you generate DiffAugment-stylegan2 model Pepe image that generated fr
 ## Requirements
  - Pillow
  - python-telegram-bot
- - tensorflow==1.14
  - numpy
  - opencv-python
  - dlib
  - scipy
  - torch
+ - torchvision
  - albumentations
  
  
  
 ## Run telegram bot on server 
  ```shell
- $ python custom_bot.py
+ $ python3 custom_bot.py
 ```
 

@@ -33,11 +33,11 @@ def main():
     parser.initialize()
     opt = parser.parser.parse_args("")
     model_files = [
-        '/home/popov/10_net_G.pth',
-        # '/home/popov/10_net_G.pth',
-        # '/home/popov/10_net_G.pth',
-        # '/home/popov/10_net_G.pth',
-        # '/home/popov/10_net_G.pth',
+        '/home/popov/models_bp/bp8_ep10.pth',
+        '/home/popov/models_bp/bp16_ep20.pth',
+        '/home/popov/models_bp/bp32_ep20.pth',
+        '/home/popov/models_bp/bp64_ep19.pth',
+        '/home/popov/models_bp/bp128_ep19.pth',
     ]
 
     Pix2pixModels.initialize(opt, model_files)
