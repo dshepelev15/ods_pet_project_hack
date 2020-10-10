@@ -17,8 +17,8 @@
             </td>
         </tr>
         <tr>
-            <td><img src="./images/man_selfie.jpg" width="auto" height="256"></td>
-            <td><img src="./images/pepe_selfie.webp" width="256" height="256"></td>
+            <td><img src="./images/woman_selfie.jpg" width="auto" height="256"></td>
+            <td><img src="./images/woman_pepe_selfie.jpeg" width="256" height="256"></td>
         </tr>
     </table>    
 </div>
